@@ -1,0 +1,6 @@
+interface:
+  display_name: "plan-talk"
+  short_description: "청중·목표·시간 예산과 장마다 보여 줄 실물을 talk.md로 계획합니다"
+  default_prompt: "$plan-talk를 사용해 이 강의의 talk.md를 만들어 주세요."
+policy:
+  allow_implicit_invocation: false

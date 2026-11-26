@@ -1,0 +1,59 @@
+{
+ "files": [
+  {
+   "file": "media/document.jpg",
+   "kind": "image",
+   "source": "sources/document_full.png",
+   "source_sha256": "60b69672bfa1b2f75c8fd96ae87ddfe2227b36ed9f4de7d080dc8bbafc9f581e",
+   "bytes": 122856,
+   "made": "2026-11-26T13:39:51",
+   "share": "ok",
+   "cmd": "image sources/document_full.png slides/media/document.jpg --width 1100 --q 80 --force",
+   "width": 1100,
+   "height": 3300
+  },
+  {
+   "file": "media/opening.mp4",
+   "kind": "video",
+   "source": "sources/opening_raw.mp4",
+   "source_sha256": "6bbf8d295c96cd2d678d98d520095380041108016c03c5ed4ae76ed7e5d41372",
+   "bytes": 150307,
+   "made": "2026-11-26T13:39:51",
+   "share": "ok",
+   "cmd": "video sources/opening_raw.mp4 slides/media/opening.mp4 --height 720 --crf 30 --force",
+   "codec": "h264",
+   "pix_fmt": "yuv420p",
+   "width": 1280,
+   "height": 720,
+   "audio": "aac",
+   "duration": 9.0
+  },
+  {
+   "file": "media/opening_poster.jpg",
+   "kind": "poster",
+   "source": "slides/media/opening.mp4",
+   "source_sha256": "bc41017373491d37062fe0e7f6a74b18199f947c91793607a1bcda54fcf1c4cf",
+   "bytes": 15613,
+   "made": "2026-11-26T13:39:51",
+   "share": "ok",
+   "cmd": "poster slides/media/opening.mp4 slides/media/opening_poster.jpg --at 4",
+   "at": 4.0
+  },
+  {
+   "file": "media/phone.mp4",
+   "kind": "video",
+   "source": "sources/phone_raw.mov",
+   "source_sha256": "a94d1bf6602dc76e42fccb9c6f4fe5952fd1720f14b04bb0cfb1081174850e07",
+   "bytes": 109118,
+   "made": "2026-11-26T13:39:50",
+   "share": "ok",
+   "cmd": "video sources/phone_raw.mov slides/media/phone.mp4 --crf 30 --force",
+   "codec": "h264",
+   "pix_fmt": "yuv420p",
+   "width": 590,
+   "height": 1278,
+   "audio": "aac",
+   "duration": 6.0
+  }
+ ]
+}

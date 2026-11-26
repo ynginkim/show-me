@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실물로 보여 주는 슬라이드</title>
+<link rel="stylesheet" href="engine/show-me.css">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+<!-- show-me 샘플 덱. 장마다 엔진 부품 하나를 보여 준다. 계획은 ../talk.md -->
+
+<!-- 1 표지 -->
+<section class="slide" data-sky="#111111" data-tone="dark" data-title="표지" data-plan="20">
+  <div class="cover">
+    <div class="kicker">show-me 샘플 덱 · 10분</div>
+    <h1 class="title">실물로 보여 주는<br>슬라이드</h1>
+    <div class="chips" style="margin-top:56px"><span class="chip b">보여 주고</span><span class="arrow">→</span><span class="chip a">설명한다</span></div>
+  </div>
+  <div class="keys"><b>←</b><b>→</b> 넘기기 · <b>G</b> 전체 보기 · <b>F</b> 전체 화면 · <b>T</b> 타이머 · <b>1–9</b> 탭/장면 · <b>P</b> 재생 · <b>Z</b> 확대</div>
+</section>
+
+<!-- 2 휴대폰 녹화 -->
+<section class="slide" data-sky="#ffffff" data-tone="light" data-label="01 보여 주기" data-sec="a" data-title="휴대폰 녹화 · 장으로 나눠 튼다" data-plan="100">
+  <div class="rail">
+    <div class="kicker">테스트 녹화 · 6초 · 세 장면</div>
+    <h1>녹화는<br>장으로 나눠<br>필요한 곳만 튼다</h1>
+    <ul class="cues">
+      <li>숫자 키 1–3으로 장을 고른다<small>오른쪽 목록을 눌러도 된다</small></li>
+      <li>P로 멈추고, Z로 확대한다</li>
+    </ul>
+    <div class="src">media/phone.mp4 ← sources/phone_raw.mov (HEVC 60fps → H.264 30fps)</div>
+  </div>
+  <div class="stage"><div class="player" data-src="media/phone.mp4" data-chap='[[0,"STEP 1","시작 화면"],[2,"STEP 2","입력"],[4,"STEP 3","결과"]]'></div></div>
+</section>
+
+<!-- 3 문서 캡처 -->
+<section class="slide" data-sky="#ffffff" data-tone="light" data-label="01 보여 주기" data-sec="a" data-title="문서 캡처 · 줄이지 않고 스크롤" data-plan="100">
+  <div class="rail">
+    <div class="kicker">긴 문서 캡처 · 1100×3300</div>
+    <h1>긴 문서는<br>줄이지 않고<br>스크롤한다</h1>
+    <ul class="cues">
+      <li>끌어서 스크롤, 더블클릭하면 크게</li>
+      <li>탭 2에는 영상의 포스터 한 장</li>
+    </ul>
+  </div>
+  <div class="stage"><div class="tabs">
+    <div class="tabbar"><button><span class="k">1</span>문서</button><button><span class="k">2</span>포스터</button></div>
+    <div class="pane"><div class="scroller"><div class="winbar"><i></i><i></i><i></i>sample-document<span class="zoom" data-zoom="media/document.jpg" data-cap="문서 전체">확대</span></div><img src="media/document.jpg" alt=""></div><div class="hint">스크롤·드래그 · 더블클릭 크게</div></div>
+    <div class="pane"><div class="scroller dark"><div class="winbar"><i></i><i></i><i></i>opening_poster.jpg</div><img src="media/opening_poster.jpg" alt=""></div></div>
+  </div></div>
+</section>
+
+<!-- 4 가로 영상 자동 재생 -->
+<section class="slide" data-sky="#1c1c1c" data-tone="dark" data-label="01 보여 주기" data-sec="a" data-title="가로 영상 · 들어오면 재생" data-plan="80">
+  <div class="rail">
+    <div class="kicker">16:9 영상 · 9초 · 자동 재생</div>
+    <h1>들어오면<br>바로 재생되는<br>영상</h1>
+    <ul class="cues">
+      <li>오프닝 영상처럼 처음부터 틀 때</li>
+      <li>떠나면 멈추고, 돌아오면 이어서 튼다</li>
+    </ul>
+  </div>
+  <div class="stage"><div class="player" data-shape="wide" data-autoplay data-src="media/opening.mp4" data-chap='[[0,"OPENING"],[3,"PART A"],[6,"PART B"]]'></div></div>
+</section>
+
+<!-- 5 장면 애니메이션 -->
+<section class="slide" data-sky="#f5f5f3" data-tone="light" data-label="02 이어 가기" data-sec="b" data-title="장면 애니메이션 · 들어올 때마다" data-plan="80" data-shot-wait="2600">
+  <div class="rail">
+    <div class="kicker">scenes.js · ShowMe.scene</div>
+    <h1>들어올 때마다<br>다시 그리는<br>도식</h1>
+    <ul class="cues">
+      <li>보이지 않는 과정은 도식으로 그린다<small>예: 여러 일이 동시에 끝나는 순서</small></li>
+      <li>이 동작은 엔진이 아니라 이 덱의 scenes.js에 있다</li>
+    </ul>
+  </div>
+  <div class="stage"><div class="bars" id="bars"><button class="replay" id="replayBars">다시 보기</button></div></div>
+</section>
+
+<!-- 6 이야기 카드 -->
+<section class="slide" data-sky="#161616" data-tone="dark" data-label="02 이어 가기" data-sec="b" data-title="이야기 카드 · 눌러서 이동" data-plan="60">
+  <div class="cover" style="top:160px">
+    <div class="kicker">data-goto</div>
+    <h1>카드를 누르면 그 장으로 갑니다</h1>
+    <div class="stories">
+      <div class="story" data-goto="2"><div class="when">2장</div><div class="what">휴대폰 녹화</div><div class="thumb"><video src="media/phone.mp4#t=3" muted preload="metadata"></video></div></div>
+      <div class="story" data-goto="3"><div class="when">3장</div><div class="what">문서 캡처</div><div class="thumb"><img src="media/document.jpg" alt=""></div></div>
+      <div class="story" data-goto="4"><div class="when">4장</div><div class="what">가로 영상</div><div class="thumb"><img src="media/opening_poster.jpg" alt=""></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 마무리 -->
+<section class="slide" data-sky="#111111" data-tone="dark" data-title="마무리" data-plan="40">
+  <div class="cover">
+    <div class="kicker">정리</div>
+    <h1 class="title" style="font-size:88px"><span style="color:var(--accent2)">보여 주고</span>,<br>짧게 설명하고,<br>확인은 사람이</h1>
+  </div>
+</section>
+
+<script type="application/json" id="showme-config">{"title": "실물로 보여 주는 슬라이드", "length": 600, "sections": {"a": {"name": "01 보여 주기", "short": "보여 주기", "color": "var(--accent)", "budget": 300}, "b": {"name": "02 이어 가기", "short": "이어 가기", "color": "var(--accent2)", "budget": 180}}}</script>
+<script src="engine/show-me.js"></script>
+<script src="scenes.js"></script>
+</body>
+</html>

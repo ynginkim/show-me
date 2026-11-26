@@ -1,0 +1,6 @@
+interface:
+  display_name: "link-lightplay"
+  short_description: "Lightplay 영상 프로젝트의 납품 영상과 장면 시각을 덱으로 가져옵니다"
+  default_prompt: "$link-lightplay를 사용해 이 영상 프로젝트를 덱에 연결해 주세요."
+policy:
+  allow_implicit_invocation: false

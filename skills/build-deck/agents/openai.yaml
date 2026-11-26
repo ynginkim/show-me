@@ -1,0 +1,6 @@
+interface:
+  display_name: "build-deck"
+  short_description: "talk.md와 미디어로 슬라이드 본문·테마·장면 스크립트를 씁니다"
+  default_prompt: "$build-deck을 사용해 이 덱의 슬라이드를 써 주세요."
+policy:
+  allow_implicit_invocation: false

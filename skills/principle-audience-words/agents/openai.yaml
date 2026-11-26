@@ -1,0 +1,6 @@
+interface:
+  display_name: "principle-audience-words"
+  short_description: "슬라이드 글을 쓸 때 내부 이름 대신 청중의 말을 고르는 판단 기준"
+  default_prompt: "$principle-audience-words를 이 슬라이드 문구 판단에 적용해 주세요."
+policy:
+  allow_implicit_invocation: false

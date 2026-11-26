@@ -1,0 +1,54 @@
+/* 이 덱의 테마와 레이아웃. new_deck.py가 시작 테마로 복사했고, 이제 이 덱이 소유한다. 마음껏 고친다.
+ * 엔진 토큰(--accent, --accent-ink, --accent-soft, --clock-hand, --night, --ink-l, --ink-d, --sans, --mono)을 여기서 덮어쓴다.
+ * 시작 테마의 레이아웃 부품(.rail/.stage/.kicker/.chips/.cues/.tpl/.card/.live/.keys)은 2026-11-25 강의 덱에서 왔다.
+ * 시작 팔레트: 밝은 장은 흰 배경과 검정 명도, 어두운 장은 검정·회색, 강조는 녹색과 주황(2026-11-26 피드백 기준 기본값). */
+:root {
+  --night: #111111; --ink-l: #f5f5f5; --ink-d: #111111;
+  --accent: #00704a; --accent-ink: #ffffff; --accent-soft: rgba(0,112,74,.12);
+  --accent2: #ffb547; --accent2-ink: #3a2600; --clock-hand: var(--accent2);
+  --sans: "Pretendard", "Apple SD Gothic Neo", sans-serif; --mono: "JB", "Pretendard", monospace;
+}
+#stage { word-break: keep-all; }
+
+/* ── layout: 왼쪽 글(rail) + 오른쪽 실물(stage), 표지(cover) ── */
+.rail { position: absolute; left: 96px; top: 150px; width: 600px; bottom: 70px; display: flex; flex-direction: column; }
+.stage { position: absolute; left: 740px; top: 120px; right: 96px; bottom: 64px; }
+.cover { position: absolute; left: 96px; top: 220px; right: 96px; }
+.kicker { font: 600 21px var(--mono); color: var(--ink2); letter-spacing: .01em; margin-bottom: 14px; }
+h1 { margin: 0; font: 850 58px/1.16 var(--sans); letter-spacing: -.035em; }
+h1.title { font-size: 112px; line-height: 1.06; letter-spacing: -.05em; }
+.mono { font-family: var(--mono); }
+.lede { font: 600 30px/1.5 var(--sans); letter-spacing: -.02em; color: var(--ink2); margin-top: 22px; }
+
+/* ── chips: 누가 하는가 ── */
+.chips { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; margin-top: 24px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 15px 6px 12px; border-radius: 999px; font: 700 23px var(--sans); letter-spacing: -.01em; white-space: nowrap; }
+.chip::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: currentColor; opacity: .7; }
+.chip.a { background: var(--accent); color: var(--accent-ink); }
+.chip.b { background: var(--accent2); color: var(--accent2-ink); }
+.chip.o { background: transparent; color: var(--ink2); border: 2px solid var(--line); }
+.arrow { color: var(--ink3); font-size: 24px; }
+
+/* ── 말할 순서와 표 ── */
+.cues { list-style: none; padding: 0; margin: 34px 0 0; display: flex; flex-direction: column; gap: 16px; }
+.cues li { position: relative; padding-left: 30px; font: 600 27px/1.38 var(--sans); letter-spacing: -.02em; color: var(--ink); }
+.cues li::before { content: ""; position: absolute; left: 4px; top: .62em; width: 12px; height: 3px; border-radius: 2px; background: var(--ink3); }
+.cues li small { display: block; font: 500 21px/1.4 var(--sans); color: var(--ink2); letter-spacing: -.01em; }
+.tpl { display: flex; flex-direction: column; gap: 14px; margin-top: 34px; }
+.tpl .r { display: grid; grid-template-columns: 150px 1fr; gap: 16px; align-items: baseline; padding-top: 12px; border-top: 2px solid var(--line); }
+.tpl .r .k { font: 800 23px var(--sans); letter-spacing: -.01em; white-space: nowrap; }
+.tpl .r .v { font: 650 26px/1.42 var(--sans); letter-spacing: -.02em; }
+.tpl .r .v small { display: block; font: 500 20px/1.4 var(--sans); color: var(--ink2); margin-top: 2px; }
+.card { border-radius: 18px; background: var(--card); border: 2px solid var(--line); padding: 22px 26px; font: 600 26px/1.5 var(--sans); }
+
+/* ── 실제 링크와 출처 ── */
+.live { margin-top: auto; display: flex; flex-wrap: wrap; gap: 10px; padding-top: 22px; }
+.live a, .live span { display: inline-flex; align-items: center; gap: 9px; padding: 9px 16px; border-radius: 10px; font: 700 20px var(--sans); text-decoration: none;
+  color: var(--ink); border: 2px solid var(--line); background: var(--card); }
+.live a::before, .live span::before { content: "LIVE"; font: 800 14px var(--mono); letter-spacing: .06em; padding: 3px 6px; border-radius: 5px; background: #e5484d; color: #fff; }
+.live a:hover { border-color: var(--accent); }
+.src { font: 500 17px var(--mono); color: var(--ink3); margin-top: 14px; }
+
+/* ── 키 안내(표지) ── */
+.keys { position: absolute; left: 96px; bottom: 40px; font: 500 18px var(--mono); color: var(--ink3); }
+.keys b { color: var(--ink2); font-weight: 700; padding: 1px 7px; border: 1.5px solid var(--line); border-radius: 5px; margin: 0 2px; }

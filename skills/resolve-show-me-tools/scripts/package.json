@@ -1,0 +1,9 @@
+{
+  "name": "show-me-scripts",
+  "private": true,
+  "type": "module",
+  "description": "show-me 덱 촬영 의존성. 시스템 Chrome을 쓰므로 브라우저를 내려받지 않는다.",
+  "dependencies": {
+    "playwright-core": "^1.64.1"
+  }
+}

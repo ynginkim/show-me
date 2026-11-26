@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "language": "ko",
+  "entry_policy": {
+    "show-me-mode": true
+  },
+  "adapters": [
+    {
+      "skill": "resolve-show-me-tools",
+      "consumers": [
+        "plan-talk",
+        "prepare-media",
+        "build-deck",
+        "check-deck",
+        "link-lightplay"
+      ]
+    }
+  ],
+  "portability": {
+    "paths": [
+      "skills/*/SKILL.md",
+      "skills/*/playbooks/*.md",
+      "skills/*/references/*.md",
+      "examples/sample-deck/talk.md",
+      "examples/sample-deck/slides/index.html",
+      "examples/sample-deck/slides/scenes.js"
+    ],
+    "forbidden": [
+      "/Users/",
+      "pstack/store",
+      "build_v2.py를 실행",
+      "showreel-mode를 불러",
+      "Skill 도구로 showreel-mode"
+    ],
+    "exceptions": {},
+    "transitions": {}
+  },
+  "migration": {
+    "rewritten": [],
+    "pending": []
+  },
+  "copies": [
+    {
+      "source": "skills/resolve-show-me-tools/assets/engine/show-me.js",
+      "target": "examples/sample-deck/slides/engine/show-me.js"
+    },
+    {
+      "source": "skills/resolve-show-me-tools/assets/engine/show-me.css",
+      "target": "examples/sample-deck/slides/engine/show-me.css"
+    }
+  ],
+  "command_snapshots": [
+    {
+      "reference": "skills/resolve-show-me-tools/SKILL.md",
+      "snapshot": "docs/command-snapshot.md",
+      "commands": [
+        "python3 $D/preflight.py",
+        "python3 $D/new_deck.py <프로젝트> --title \"제목\" --kicker \"20분 강의 · …\" [--no-fonts]"
+      ]
+    },
+    {
+      "reference": "skills/link-lightplay/SKILL.md",
+      "snapshot": "docs/command-snapshot.md",
+      "commands": [
+        "python3 $D/import_lightplay.py <Lightplay 프로젝트> <덱 프로젝트> --dry-run"
+      ]
+    },
+    {
+      "reference": "skills/check-deck/SKILL.md",
+      "snapshot": "docs/command-snapshot.md",
+      "commands": [
+        "python3 $D/check_deck.py <프로젝트> --baseline <기준 폴더>/shots",
+        "python3 $D/check_deck.py <프로젝트> --no-shoot"
+      ]
+    },
+    {
+      "reference": "skills/prepare-media/SKILL.md",
+      "snapshot": "docs/command-snapshot.md",
+      "commands": [
+        "python3 $D/prep_media.py list <프로젝트>/slides/media"
+      ]
+    }
+  ],
+  "version": "0.1.0-dev"
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="stylesheet" href="engine/show-me.css">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+<!-- 슬라이드 본문. section.slide 하나가 한 장이다. 속성: data-sky(배경색) data-tone(dark|light) data-h(시계 0–24, 선택)
+     data-label(상단 라벨) data-sec(구간 키) data-title(전체 보기 제목) data-plan(예상 초) data-shot-wait(촬영 대기 ms, 선택)
+     부품과 속성은 build-deck의 references/components.md를 따른다. -->
+
+<!-- 1 표지 -->
+<section class="slide" data-sky="#111111" data-tone="dark" data-title="표지" data-plan="30">
+  <div class="cover">
+    <div class="kicker">{{KICKER}}</div>
+    <h1 class="title">{{TITLE}}</h1>
+  </div>
+  <div class="keys"><b>←</b><b>→</b> 넘기기 · <b>G</b> 전체 보기 · <b>F</b> 전체 화면 · <b>T</b> 타이머 · <b>1–9</b> 탭/장면 · <b>P</b> 재생 · <b>Z</b> 확대</div>
+</section>
+
+<!-- 2 본문 예시: 왼쪽 글(rail) + 오른쪽 실물(stage) -->
+<section class="slide" data-sky="#ffffff" data-tone="light" data-label="01" data-sec="a" data-title="첫 구간" data-plan="90">
+  <div class="rail">
+    <div class="kicker">출처 · 날짜</div>
+    <h1>한 장에<br>한 문장</h1>
+    <ul class="cues"><li>말할 순서 하나<small>보충 한 줄</small></li></ul>
+  </div>
+  <div class="stage"><div class="card">여기에 녹화(.player), 캡처(.scroller), 탭(.tabs)을 둔다</div></div>
+</section>
+
+<!-- 3 마무리 -->
+<section class="slide" data-sky="#1c1c1c" data-tone="dark" data-title="마무리 · 질문" data-plan="60">
+  <div class="cover"><h1 class="title">질문</h1></div>
+</section>
+
+<script type="application/json" id="showme-config">{"title": "{{TITLE}}", "length": 1200, "sections": {"a": {"name": "01 첫 구간", "short": "첫 구간", "color": "var(--accent)", "budget": 600}}}</script>
+<script src="engine/show-me.js"></script>
+<script src="scenes.js"></script>
+</body>
+</html>

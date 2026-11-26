@@ -1,0 +1,6 @@
+interface:
+  display_name: "principle-judge-from-shots"
+  short_description: "덱의 완료와 수정 범위를 찍은 화면과 비교로 판정하는 판단 기준"
+  default_prompt: "$principle-judge-from-shots를 이 덱의 완료 판단에 적용해 주세요."
+policy:
+  allow_implicit_invocation: false

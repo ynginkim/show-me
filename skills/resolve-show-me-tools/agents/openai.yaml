@@ -1,0 +1,6 @@
+interface:
+  display_name: "resolve-show-me-tools"
+  short_description: "show-me 엔진·스크립트 경로와 환경 점검, 새 덱 명령을 알려 줍니다"
+  default_prompt: "$resolve-show-me-tools로 이 덱의 도구 경로와 환경을 확인해 주세요."
+policy:
+  allow_implicit_invocation: false
