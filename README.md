@@ -62,7 +62,7 @@ npx skills@1.7.4 add ynginkim/show-me -a claude-code -a codex
 <details>
 <summary>촬영 도구·글꼴·로컬 설치</summary>
 
-GitHub 게시 전에는 로컬 경로로 설치한다: `npx skills@1.7.4 add ~/Documents/harness/show-me -a claude-code -a codex`. 로컬 경로 설치 smoke는 통과했으며, GitHub 경로 설치는 아직 검증하지 않았다.
+저장소를 받아 고치며 쓸 때는 로컬 경로로도 설치할 수 있다: `npx skills@1.7.4 add <저장소 경로> -a claude-code -a codex`. GitHub 경로 설치와 로컬 경로 설치 smoke를 모두 확인했다(2026-11-26).
 
 덱을 찍어 검사하려면 Node 18 이상, 시스템 Chrome, playwright-core가 필요하다. 첫 실행 때 에이전트가 `preflight.py`로 점검하고, 승인하면 설치본의 scripts 폴더 안에 playwright-core를 받는다(npm, 약 14 MB, 브라우저는 내려받지 않음). 영상 변환에는 ffmpeg, 이미지 변환·시트·비교에는 Python Pillow·numpy가 필요하다.
 

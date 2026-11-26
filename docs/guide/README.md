@@ -7,7 +7,7 @@
 작업 폴더(강의 자료를 둘 저장소나 폴더)에서 설치한다.
 
 ```bash
-npx skills@1.7.4 add ~/Documents/harness/show-me -a claude-code -a codex
+npx skills@1.7.4 add ynginkim/show-me -a claude-code -a codex
 ```
 
 Claude Code에서 "강의 자료 만들어 줘"처럼 요청하면 `show-me-mode`가 시작된다. 첫 실행에서 에이전트가 `preflight.py`를 돌려 촬영 도구(playwright-core)가 없으면 설치를 물어본다. 설치는 `skills/resolve-show-me-tools/scripts/node_modules`에만 생긴다.

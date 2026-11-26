@@ -123,6 +123,8 @@ leaf skill과 principle의 자동 호출은 `false`다.
 | 샘플 덱 | `check_deck.py examples/sample-deck` | 실패 0, 경고 0, 7장 + 상호작용 4장, 시트 열람 |
 | Lightplay 없는 촬영 | 이 저장소의 playwright-core 1.65.1(`preflight.py --install`)로 가져온 영상 덱 검사 | 실패 0 |
 | 설치 smoke | 커밋 후 clone에서 `python3 scripts/install_smoke.py` | 통과. 커밋 `15c4c4c`를 clone해 skills@1.7.4로 설치, skill 11개와 playbook·참조 72개를 `.agents`·`.claude` 두 경로에서 열었다. 설치본의 `new_deck.py`·`check_deck.py`로 새 덱을 만들고 검사(실패 0) |
+| CI(GitHub Actions) | 첫 push의 `check` 워크플로: 구조 검사, 자체 테스트 49건, 설치 smoke | 통과(run 45763925455) |
+| GitHub 경로 설치 | 빈 Git 폴더에서 `npx skills@1.7.4 add ynginkim/show-me` 후 설치본의 `new_deck.py`·`check_deck.py --no-shoot` | 통과. skill 11개 |
 | 라우팅(새 세션) | 미실행 | unverified |
 
 ## 잠정 규칙과 두 번째 사례 대조
@@ -170,7 +172,7 @@ leaf skill과 principle의 자동 호출은 `false`다.
 | 시작 팔레트 | 흰 배경·검정 명도, 검정·회색 어두운 장, 녹색 `#00704a`·주황 `#ffb547` 강조. 2026-11-26 피드백(작업 폴더 메모리에도 있음)을 따른 기본값이며 덱마다 deck.css에서 바꾼다 | 다른 시작 팔레트 |
 | 플레이어 | 공유용 Lightplay 영상을 가져옴 | 프로젝터 화질이 중요하면 마스터 |
 | 글꼴 | Pretendard + JetBrains Mono를 로컬 복사 또는 내려받기 | 다른 글꼴 |
-| 공개 | 로컬 저장소와 로컬 커밋만. GitHub 생성·push 안 함 | 게시 여부와 공개 범위 |
+| 공개 | 2026-11-26 사용자 요청으로 `github.com/ynginkim/show-me`에 public으로 게시했다(main만, 커밋 작성자 ynginkim@gmail.com) | 릴리스 태그 발행 시점 |
 | harness-family 등재 | 하지 않음 | README 표와 호환성 표에 넣을지 |
 
 ## 확인하지 못한 것
@@ -182,4 +184,3 @@ leaf skill과 principle의 자동 호출은 `false`다.
 | 실제 강의 한 편을 show-me로 처음부터 만들기 | unverified | 다음 강의에서 `create-deck`으로 만들고 제작노트의 막힌 단계를 absorb-feedback으로 반영한다 |
 | 가로 플레이어·자동 재생의 현장 동작(소리 있는 자동 재생 정책) | unverified | 발표 컴퓨터의 Chrome에서 키로 넘겨 들어갔을 때 소리와 함께 재생되는지 사람이 확인한다 |
 | Windows·Linux 촬영 | unverified | 그 환경에서 `preflight.py`와 `test_tools.py`를 실행한다(Chrome 경로와 한글 시트 글꼴) |
-| CI(GitHub Actions)의 구조 검사 | unverified | GitHub에 게시한 뒤 첫 push의 check 워크플로 결과를 확인한다 |
