@@ -1,6 +1,6 @@
 # 검사 키트 출처
 
-meta-harness `6c453008c3cb7a2edea82fea634963d43b7ffe35`의 `skills/check-skillset/scripts/`에서 2026-11-26에 복사했다. CI 설정은 같은 커밋의 `skills/scaffold-skillset/assets/check.yml`이다. 이 사본은 고치지 않았다. 갱신할 때는 정본과 diff를 검토하고 `python3 scripts/selftest.py`로 오류 주입 검사를 다시 실행한다.
+meta-harness `6c453008c3cb7a2edea82fea634963d43b7ffe35`의 `skills/check-skillset/scripts/`에서 2026-11-26에 복사했다. CI 설정은 meta-harness `aca7488`(2026-11-26, action을 v7로 올린 커밋)의 `skills/scaffold-skillset/assets/check.yml`이다. 이 사본은 고치지 않았다. 갱신할 때는 정본과 diff를 검토하고 `python3 scripts/selftest.py`로 오류 주입 검사를 다시 실행한다.
 
 ```json
 {
