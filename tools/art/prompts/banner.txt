@@ -1,0 +1,12 @@
+Wide landscape banner, composed so that a 5:2 crop of the central horizontal band keeps everything important.
+
+Left 45 percent: a close, low-angle still life on a dark wooden desk at night. An aged nineteenth-century letter sheet, cream paper with soft folds and faded brown ink handwriting that is completely illegible (pure scribble texture, no readable letters). Resting on the letter is a single small shard of a broken green glass bottle. Cool moonlight catches the shard's edge and it throws one sharp, bright, four-pointed star of light, the brightest point in the whole image. Faint green light refracts through the glass onto the paper.
+
+Right 55 percent, on the plain near-black background, flat crisp typography, left-aligned in one column:
+1. The word "show-me" set very large in a refined serif, lowercase, cream colour, with the hyphen and "me" in warm orange.
+2. Below it, in a smaller elegant italic serif, cream: "Show, don't tell."
+3. Below that, a thin line of small, widely spaced uppercase monospace text in muted grey: "CHEKHOV · LETTER · 1886  →  LECTURE DECKS · 2026"
+
+Along the very bottom edge, spanning the full width, a thin row of tiny empty 16:9 slide outlines drawn in thin grey lines like a filmstrip of a presentation, with one slide outline near the right highlighted in warm orange and a short orange progress bar under the row.
+
+Spell every word exactly as given. Do not add any other text.

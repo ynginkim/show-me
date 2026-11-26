@@ -1,5 +1,10 @@
 # 변경 기록
 
+## Unreleased
+
+- README를 하네스 패밀리 형식(배너, 이름의 유래, 사용법, Lightplay와 함께, 출처, 기여와 버전)으로 다시 썼다. 배너는 Codex 내장 이미지 생성(`tools/art/`)으로 만들었다.
+- 커뮤니티·릴리스 문서를 더했다: CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT, RELEASING, THIRD_PARTY.
+
 ## 0.1.0-dev (2026-11-26)
 
 - 처음 만듦. meta-harness `design-skillset` 흐름으로 설계했다.

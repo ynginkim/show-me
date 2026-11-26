@@ -5,3 +5,4 @@ examples/*/qa/
 examples/*/sources/
 PAUSE.md
 .work/
+tools/art/out/
