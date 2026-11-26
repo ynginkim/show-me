@@ -122,7 +122,7 @@ leaf skill과 principle의 자동 호출은 `false`다.
 | 엔진 회귀(v2) | `.work/regress-v2/run.sh`: 원본 2회, 이식본 1회 촬영, 장마다 비교. 자세한 수치는 [회귀 기록](docs/regression-v2.md) | 통과. 2차 실행에서 이식본과 원본 21장 중 19장 픽셀 동일, 다른 2장(지연 로딩 썸네일, 시계 1픽셀)은 원본끼리도 달라지는 영역. 오류 0, 타이머 동일. 엔진 접두사·팔레트 변경 전후 이식본 차이는 1픽셀 |
 | 샘플 덱 | `check_deck.py examples/sample-deck` | 실패 0, 경고 0, 7장 + 상호작용 4장, 시트 열람 |
 | Lightplay 없는 촬영 | 이 저장소의 playwright-core 1.65.1(`preflight.py --install`)로 가져온 영상 덱 검사 | 실패 0 |
-| 설치 smoke | 커밋 후 clone에서 `python3 scripts/install_smoke.py` | INSTALL_RESULT |
+| 설치 smoke | 커밋 후 clone에서 `python3 scripts/install_smoke.py` | 통과. 커밋 `15c4c4c`를 clone해 skills@1.7.4로 설치, skill 11개와 playbook·참조 72개를 `.agents`·`.claude` 두 경로에서 열었다. 설치본의 `new_deck.py`·`check_deck.py`로 새 덱을 만들고 검사(실패 0) |
 | 라우팅(새 세션) | 미실행 | unverified |
 
 ## 잠정 규칙과 두 번째 사례 대조
