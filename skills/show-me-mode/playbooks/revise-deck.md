@@ -8,7 +8,7 @@
 4. 전 장을 다시 찍어 기준과 비교한다.
 5. 바뀐 것과 사람 확인 요청을 전달한다.
 
-**1.** Read `../resolve-show-me-tools/SKILL.md`. `D`를 확인하고 `preflight.py`를 실행한다. 프로젝트의 `talk.md`, `제작노트.md`, `PAUSE.md`, `qa/deck/report.md`, `slides/media/media.json`을 읽는다. `check_deck.py --no-shoot`으로 덱 엔진 버전과 설치본 버전을 본다. 다르더라도 사용자가 엔진 갱신을 요청하지 않았으면 덱의 엔진을 그대로 쓴다.
+**1.** Read `../resolve-show-me-tools/SKILL.md`. `D`를 확인하고 `preflight.py`를 실행한다. 프로젝트의 `talk.md`, `제작노트.md`, `PAUSE.md`, `qa/deck/report.md`, `slides/media/media.json`을 읽는다. `check_deck.py --no-shoot`으로 덱 엔진 버전과 설치본 버전을 본다. 다르더라도 사용자가 엔진 갱신을 요청하지 않았으면 덱의 엔진을 그대로 쓴다. 요청이 무엇을 바꾸려는지(의도)가 모호하면 한 줄로 되짚어 확인한다. 어떻게 고칠지는 정해서 진행하고, 사용자가 "먼저 알려 달라"고 하면 2단계의 바뀔 장 목록을 보이고 기다린다.
 
 **2.** 수정하기 전에 `check_deck.py <프로젝트> --out <프로젝트>/qa/deck/before-<YYYYmmdd-HHMM>`으로 기준 촬영본을 만든다(이전 촬영 뒤로 덱이 바뀌지 않았으면 기존 `qa/deck/shots/`를 그 폴더로 옮겨도 된다). 아래 표에서 이번 변경이 닿는 행을 고르고, 바뀔 장과 바뀌지 않아야 할 장을 적는다. **principle-judge-from-shots**를 적용한다.
 

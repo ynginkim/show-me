@@ -1,9 +1,10 @@
 /* 이 덱의 테마와 레이아웃. new_deck.py가 시작 테마로 복사했고, 이제 이 덱이 소유한다. 마음껏 고친다.
- * 엔진 토큰(--accent, --accent-ink, --accent-soft, --clock-hand, --night, --ink-l, --ink-d, --sans, --mono)을 여기서 덮어쓴다.
+ * 엔진 토큰(--accent, --accent-ink, --accent-soft, --clock-hand, --night, --ink-l, --ink-d, --letterbox, --overlay, --sans, --mono)을 여기서 덮어쓴다.
+ * --ink2·--ink3·--line은 엔진이 --ink-l·--ink-d에서 만든다(0.2.0).
  * 시작 테마의 레이아웃 부품(.rail/.stage/.kicker/.chips/.cues/.tpl/.card/.live/.keys)은 2026-11-25 강의 덱에서 왔다.
  * 시작 팔레트: 밝은 장은 흰 배경과 검정 명도, 어두운 장은 검정·회색, 강조는 녹색과 주황(2026-11-26 피드백 기준 기본값). */
 :root {
-  --night: #111111; --ink-l: #f5f5f5; --ink-d: #111111;
+  --night: #111111; --ink-l: #f5f5f5; --ink-d: #111111; --letterbox: #000000; --overlay: rgba(0,0,0,.93);
   --accent: #00704a; --accent-ink: #ffffff; --accent-soft: rgba(0,112,74,.12);
   --accent2: #ffb547; --accent2-ink: #3a2600; --clock-hand: var(--accent2);
   --sans: "Pretendard", "Apple SD Gothic Neo", sans-serif; --mono: "JB", "Pretendard", monospace;

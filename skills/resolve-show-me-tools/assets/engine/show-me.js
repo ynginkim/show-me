@@ -1,11 +1,13 @@
-/* show-me engine 0.1.0 · MIT · https://github.com/ynginkim/show-me
+/* show-me engine 0.2.0 · MIT · https://github.com/ynginkim/show-me
  * 덱 폴더의 engine/에 복사해 쓴다. 이 파일은 고치지 않는다. 덱마다 필요한 동작은 scenes.js에서 ShowMe API로 더한다.
  * 설정은 엔진보다 앞에 둔다: <script type="application/json" id="showme-config">{ "sections": { ... } }</script>
  * 원형: 2026-11-25 강의 덱 v2의 v1 스크립트(넘김·타이머·탭·스크롤·확대·플레이어·전체 보기·키보드).
- * 엔진이 만드는 요소의 클래스는 sm- 접두사를 쓴다. 덱이 쓰는 부품 클래스(player, tabs, scroller …)는 접두사 없이 그대로다. */
+ * 엔진이 만드는 요소의 클래스는 sm- 접두사를 쓴다. 덱이 쓰는 부품 클래스(player, tabs, scroller …)는 접두사 없이 그대로다.
+ * 0.2.0: 차례로 나타나기(data-frag), 소리 버튼(data-audio), 화면 끄기(B), 타이머 0으로(Shift+T)·전체 경과,
+ *        단색 하늘(data-sky-solid), 장별 상단 바·시계 숨기기(data-notop, data-clock="off"). 출처: 2026-11-26 메이킹 강의 덱. */
 (() => {
   'use strict';
-  const VERSION = '0.1.0';
+  const VERSION = '0.2.0';
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const NS = 'http://www.w3.org/2000/svg';
   const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -41,6 +43,7 @@
   }
   if (!$('#lb')) document.body.insertAdjacentHTML('beforeend', '<div id="lb"><div class="sm-box"><img alt=""></div><button class="sm-nav sm-prev">‹</button><button class="sm-nav sm-next">›</button><button class="sm-x">×</button><div class="sm-cap"></div></div>');
   if (!$('#ov')) document.body.insertAdjacentHTML('beforeend', '<div id="ov"><h2>전체 보기 <span>— 클릭해서 이동 · G/Esc 닫기</span></h2><div class="sm-g"></div></div>');
+  if (!$('#sm-blank')) document.body.insertAdjacentHTML('beforeend', '<div id="sm-blank"></div>');
 
   let cur = 0, scale = 1, started = false;
 
@@ -64,19 +67,22 @@
 
   // ── sections & time-budget timer (config.sections: { key: { name, short?, color?, budget? (seconds) } }) ──
   const SEC = config.sections || {};
+  // T shows/hides the timer, Shift+T sets every section and the total back to 0 (time counts from page load).
   const spent = {}; Object.keys(SEC).forEach(k => { spent[k] = 0; });
-  let lastTick = null, timerOn = false;
+  let lastTick = null, timerOn = false, total = 0;
   const timerEl = $('#timer');
+  const resetTimer = () => { Object.keys(spent).forEach(k => { spent[k] = 0; }); total = 0; };
+  const totalText = () => config.length ? ` · 전체 ${fmt(total)} / ${fmt(config.length)}` : ` · 전체 ${fmt(total)}`;
   setInterval(() => {
-    const sec = slides[cur].dataset.sec, now = performance.now();
-    if (lastTick != null && sec && SEC[sec]) spent[sec] += (now - lastTick) / 1000;
-    lastTick = now;
+    const sec = slides[cur].dataset.sec, now = performance.now(), dt = lastTick == null ? 0 : (now - lastTick) / 1000;
+    lastTick = now; total += dt;
+    if (sec && SEC[sec]) spent[sec] += dt;
     if (!sec || !SEC[sec]) {
-      timerEl.textContent = Object.keys(SEC).map(k => `${SEC[k].short || SEC[k].name} ${fmt(spent[k])}`).join(' · ');
+      timerEl.textContent = Object.keys(SEC).map(k => `${SEC[k].short || SEC[k].name} ${fmt(spent[k])}`).join(' · ') + totalText();
       timerEl.className = timerOn ? 'on' : ''; return;
     }
     const s = spent[sec], b = SEC[sec].budget;
-    timerEl.textContent = b ? `${SEC[sec].name} ${fmt(s)} / ${fmt(b)}` : `${SEC[sec].name} ${fmt(s)}`;
+    timerEl.textContent = (b ? `${SEC[sec].name} ${fmt(s)} / ${fmt(b)}` : `${SEC[sec].name} ${fmt(s)}`) + totalText();
     timerEl.className = (timerOn ? 'on ' : '') + (b && s > b ? 'over' : b && s > b * 0.85 ? 'warn' : '');
   }, 250);
 
@@ -96,8 +102,40 @@
     return sc;
   }
 
+  // ── fragments: [data-frag] elements appear one per → press before the next slide.
+  //    Elements that share a non-empty value (data-frag="q1") appear together, e.g. cells of one grid row.
+  //    Entering a slide forwards starts with none shown; entering backwards shows all.
+  const frags = s => $$('[data-frag]', s);
+  const fragGroup = (fs, f) => f.dataset.frag ? fs.filter(x => x.dataset.frag === f.dataset.frag) : [f];
+  const fragEvent = () => document.dispatchEvent(new CustomEvent('showme:frag', { detail: { slide: cur + 1, shown: frags(slides[cur]).filter(f => f.classList.contains('sm-shown')).length } }));
+  function step(d) {
+    const fs = frags(slides[cur]);
+    if (d > 0) {
+      const nx = fs.find(f => !f.classList.contains('sm-shown'));
+      if (nx) { fragGroup(fs, nx).forEach(x => x.classList.add('sm-shown')); fragEvent(); return; }
+      go(cur + 1);
+    } else {
+      const sh = fs.filter(f => f.classList.contains('sm-shown'));
+      if (sh.length) { fragGroup(fs, sh[sh.length - 1]).forEach(x => x.classList.remove('sm-shown')); fragEvent(); return; }
+      go(cur - 1, false, true);
+    }
+  }
+  const revealAll = () => { frags(slides[cur]).forEach(f => f.classList.add('sm-shown')); fragEvent(); };
+
+  // ── audio clip buttons: [data-audio="media/x.mp3"], one clip at a time, stops on slide change ──
+  const au = new Audio(); let auBtn = null;
+  const stopAudio = () => { au.pause(); if (auBtn) auBtn.classList.remove('sm-playing'); auBtn = null; };
+  au.addEventListener('ended', stopAudio);
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-audio]'); if (!b) return;
+    if (auBtn === b) { stopAudio(); return; }
+    stopAudio(); auBtn = b; au.src = b.dataset.audio; au.currentTime = 0;
+    const p = au.play(); if (p && p.catch) p.catch(() => {});
+    b.classList.add('sm-playing');
+  });
+
   // ── navigation ──
-  function go(n, fromHash) {
+  function go(n, fromHash, back) {
     n = Math.max(0, Math.min(slides.length - 1, n));
     const changed = n !== cur || !started;
     const prev = slides[cur];
@@ -105,11 +143,17 @@
       if (started) sceneCall(prev, 'leave');
       prev.classList.remove('active');
       $$('video', prev).forEach(v => v.pause());
+      stopAudio();
     }
     cur = n;
     const s = slides[cur];
+    if (changed) frags(s).forEach(f => f.classList.toggle('sm-shown', !!back));
     s.classList.add('active');
     if (s.dataset.sky) stage.style.setProperty('--sky', s.dataset.sky); else stage.style.removeProperty('--sky');
+    // a gradient sky cannot colour text; data-sky-solid gives the flat colour used by .on buttons and the overview
+    if (s.dataset.skySolid || s.dataset.sky) stage.style.setProperty('--sky-solid', s.dataset.skySolid || s.dataset.sky); else stage.style.removeProperty('--sky-solid');
+    stage.classList.toggle('sm-notop', s.hasAttribute('data-notop'));
+    stage.classList.toggle('sm-noclock', s.dataset.clock === 'off');
     stage.dataset.tone = s.dataset.tone || config.tone || 'dark';
     if (hand) {
       const h = parseFloat(s.dataset.h || 0), target = h / 24 * 360;
@@ -226,25 +270,28 @@
 
   // ── overview ──
   const ov = $('#ov');
-  $('.sm-g', ov).innerHTML = slides.map((s, i) => `<button class="sm-ov-b" data-i="${i}" style="background:${s.dataset.sky ? s.dataset.sky + '22' : 'var(--ov-card)'}"><span class="sm-m">${i + 1} · ${s.dataset.label || ''}</span>${s.dataset.title || ''}</button>`).join('');
+  $('.sm-g', ov).innerHTML = slides.map((s, i) => { const c = s.dataset.skySolid || (s.dataset.sky && s.dataset.sky.startsWith('#') ? s.dataset.sky : ''); return `<button class="sm-ov-b" data-i="${i}" style="background:${c ? c + '22' : 'var(--ov-card)'}"><span class="sm-m">${i + 1} · ${s.dataset.label || ''}</span>${s.dataset.title || ''}</button>`; }).join('');
   $('.sm-g', ov).addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; ov.classList.remove('on'); go(+b.dataset.i); });
 
   // ── keyboard (capture phase so focused video controls do not swallow keys) ──
   addEventListener('keydown', e => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
-    const k = e.key, s = slides[cur];
+    const k = e.key, s = slides[cur], blank = $('#sm-blank');
+    if (blank.classList.contains('on')) { blank.classList.remove('on'); e.preventDefault(); e.stopPropagation(); return; }
     if (lb.classList.contains('on')) {
       if (k === 'Escape') closeLB(); else if (k === 'ArrowRight') lbStep(1); else if (k === 'ArrowLeft') lbStep(-1); else return;
       e.preventDefault(); e.stopPropagation(); return;
     }
     if (ov.classList.contains('on') && (k === 'Escape' || k === 'g' || k === 'G')) { ov.classList.remove('on'); e.preventDefault(); return; }
     const P = $('.player', s);
-    if (['ArrowRight', 'PageDown', ' '].includes(k)) go(cur + 1);
-    else if (['ArrowLeft', 'PageUp'].includes(k)) go(cur - 1);
+    if (['ArrowRight', 'PageDown', ' '].includes(k)) step(1);
+    else if (['ArrowLeft', 'PageUp'].includes(k)) step(-1);
     else if (k === 'Home') go(0); else if (k === 'End') go(slides.length - 1);
     else if (k === 'g' || k === 'G') ov.classList.add('on');
     else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
-    else if (k === 't' || k === 'T') { timerOn = !timerOn; timerEl.classList.toggle('on', timerOn); }
+    else if (k === 'b' || k === 'B') blank.classList.add('on');
+    else if (k === 'T') resetTimer();
+    else if (k === 't') { timerOn = !timerOn; timerEl.classList.toggle('on', timerOn); }
     else if ((k === 'p' || k === 'P') && P) P._toggle();
     else if ((k === 'z' || k === 'Z') && P) P._zoom();
     else if (/^[1-9]$/.test(k)) { const i = +k - 1, t = $('.tabs', s); if (t) t._sel(i); else if (P) P._chap(i); else return; }
@@ -255,8 +302,8 @@
   // ── public API (slide numbers are 1-based, like data-goto and #N) ──
   window.ShowMe = {
     version: VERSION, config, slides, $, $$, fmt, scene,
-    go: n => go(n - 1), next: () => go(cur + 1), prev: () => go(cur - 1), current: () => cur + 1,
-    lightbox: openLB, get scale() { return scale; },
+    go: n => go(n - 1), next: () => step(1), prev: () => step(-1), current: () => cur + 1,
+    lightbox: openLB, revealAll, stopAudio, resetTimer, get scale() { return scale; },
   };
 
   // ── start after scenes.js has registered its scenes ──

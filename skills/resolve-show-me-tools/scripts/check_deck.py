@@ -31,7 +31,7 @@ class DeckParser(HTMLParser):
             self._in_cfg, self.config_text = True, ''
         if 'player' in cls:
             self.players.append({'slide': len(self.slides), 'src': a.get('data-src'), 'chap': a.get('data-chap')})
-        for k in ('src', 'href', 'data-src', 'data-zoom', 'poster'):
+        for k in ('src', 'href', 'data-src', 'data-zoom', 'data-audio', 'poster'):
             if a.get(k):
                 self.refs.append({'slide': len(self.slides), 'tag': tag, 'attr': k, 'url': a[k]})
 
@@ -93,6 +93,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('target'); ap.add_argument('--out'); ap.add_argument('--pw'); ap.add_argument('--baseline'); ap.add_argument('--actions')
     ap.add_argument('--only'); ap.add_argument('--no-shoot', action='store_true'); ap.add_argument('--no-auto', action='store_true')
+    ap.add_argument('--frags', action='store_true', help='also shoot each slide before its data-frag elements appear (sNN_a.png)')
     a = ap.parse_args()
     t = Path(a.target).resolve()
     index = t if t.suffix == '.html' else (t / 'index.html' if (t / 'index.html').exists() else t / 'slides' / 'index.html')
@@ -195,6 +196,8 @@ def main():
                 cmd += [k, v]
         if a.no_auto:
             cmd.append('--no-auto')
+        if a.frags:
+            cmd.append('--frags')
         if (out / 'shots').exists():
             shutil.rmtree(out / 'shots')
         r = subprocess.run(cmd, capture_output=True, text=True)

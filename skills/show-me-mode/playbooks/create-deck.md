@@ -11,7 +11,7 @@
 
 **1.** Read `../resolve-show-me-tools/SKILL.md`. `D`를 확인하고 `preflight.py`를 실행한다. 촬영 도구(playwright-core)가 없으면 설치 안내를 보여 주고 사용자가 정하게 한다. 작업 폴더 정책에 따라 프로젝트 폴더를 정하고 `new_deck.py`로 만든다. 자료 위치에 Lightplay 프로젝트(`project.json`, `timeline.json`, `out/`)가 있으면 그 경로를 적어 둔다.
 
-**2.** Read `../plan-talk/SKILL.md`. `talk.md`를 쓴다. Lightplay 프로젝트가 있으면 먼저 Read `../link-lightplay/SKILL.md`의 "영상이 이미 말한 것"을 따라 영상의 장면과 메시지를 읽고, 덱은 영상이 말하지 않은 것을 맡게 한다. **principle-show-the-real-thing**으로 장마다 실물과 도식을 고르고, **principle-audience-words**로 제목과 라벨의 말을 고른다. 구간 예산 합이 강의 길이를 넘으면 장을 줄인다. 글자를 줄이거나 말을 빨리 해서 맞추지 않는다.
+**2.** Read `../plan-talk/SKILL.md`. `talk.md`를 쓴다. Lightplay 프로젝트가 있으면 먼저 Read `../link-lightplay/SKILL.md`의 "영상이 이미 말한 것"을 따라 영상의 장면과 메시지를 읽고, 덱은 영상이 말하지 않은 것을 맡게 한다. **principle-show-the-real-thing**으로 장마다 실물과 도식을 고르고, **principle-audience-words**로 제목과 라벨의 말을 고른다. 구간 예산 합이 강의 길이를 넘으면 장을 줄인다. 글자를 줄이거나 말을 빨리 해서 맞추지 않는다. 의도는 mode의 브리프에서 확인했으므로 `talk.md`의 구성·장 목록은 승인을 기다리지 않고 3단계로 간다. 사용자가 계획을 먼저 보자고 명시했을 때만 `talk.md` 요약을 보이고 기다린다.
 
 **3.** Read `../prepare-media/SKILL.md`. `talk.md`의 실물 목록대로 원자료를 `slides/media/`로 바꾼다. Lightplay 영상은 `link-lightplay`의 가져오기로 받는다. 공개 범위가 걸린 자료는 `--onsite`로 기록한다. 긴 영상 변환은 백그라운드로 돌리고 4단계를 시작한다.
 

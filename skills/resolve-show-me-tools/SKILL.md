@@ -55,7 +55,7 @@ python3 $D/new_deck.py <프로젝트> --title "제목" --kicker "20분 강의 ·
 | `python3 $D/new_deck.py <프로젝트> [--title] [--no-fonts] [--update-engine]` | 새 덱, 엔진 갱신 | create-deck, revise-deck |
 | `python3 $D/prep_media.py video\|image\|thumbs\|poster\|list …` | 원자료 변환과 출처 기록 | prepare-media |
 | `python3 $D/import_lightplay.py <Lightplay 프로젝트> <덱 프로젝트> [--dry-run]` | Lightplay 납품 영상·포스터·자막·장면 시각 가져오기 | link-lightplay |
-| `python3 $D/check_deck.py <프로젝트> [--baseline <shots>] [--actions <json>] [--only 3,5] [--no-shoot]` | 정적 검사, 촬영, 시트, 비교, 보고서 | check-deck |
+| `python3 $D/check_deck.py <프로젝트> [--baseline <shots>] [--actions <json>] [--frags] [--only 3,5] [--no-shoot]` | 정적 검사, 촬영, 시트, 비교, 보고서 | check-deck |
 | `node $D/shoot.mjs --deck <index.html> --out <폴더>` | 촬영만(check_deck이 부른다) | check-deck |
 | `python3 $D/compare_shots.py <기준> <대상> --out <폴더>` | 촬영본 비교만(check_deck이 부른다) | check-deck |
 

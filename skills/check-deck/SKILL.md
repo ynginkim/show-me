@@ -18,6 +18,7 @@ Read `../principle-judge-from-shots/SKILL.md`. **principle-judge-from-shots**를
 python3 $D/check_deck.py <프로젝트>                                   # 정적 검사 + 촬영 + 시트 + 보고서
 python3 $D/check_deck.py <프로젝트> --baseline <기준 폴더>/shots        # + 수정 전후 비교
 python3 $D/check_deck.py <프로젝트> --actions <actions.json>          # + 정해 둔 상호작용 촬영
+python3 $D/check_deck.py <프로젝트> --frags                           # + 차례로 나타나는 장의 펼치기 전 상태(sNN_a.png)
 python3 $D/check_deck.py <프로젝트> --no-shoot                        # 촬영 도구가 없을 때 정적 검사만
 ```
 

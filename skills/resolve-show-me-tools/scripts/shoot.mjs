@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Screenshot every slide of a show-me deck (file://) at 1920×1080, run interactions, and report errors.
 // usage: node shoot.mjs --deck <slides/index.html> --out <dir> [--pw <dir>] [--actions <json>] [--no-auto]
-//        [--no-freeze] [--wait 1300] [--wait-for 10:4600,...] [--only 3,5]
+//        [--no-freeze] [--wait 1300] [--wait-for 10:4600,...] [--only 3,5] [--frags]
+// Slides are shot with every [data-frag] shown (ShowMe.revealAll). --frags also saves sNN_a.png before they appear.
 // playwright-core: --pw <dir> → env SHOWME_PLAYWRIGHT → this folder's node_modules. Uses system Chrome (channel "chrome").
 import { createRequire } from 'node:module';
 import fs from 'node:fs';
@@ -27,7 +28,7 @@ function loadPlaywright() {
 const waitDefault = +opt('--wait', 1300);
 const waitFor = Object.fromEntries((opt('--wait-for', '') || '').split(',').filter(Boolean).map(x => x.split(':').map(Number)));
 const only = (opt('--only', '') || '').split(',').filter(Boolean).map(Number);
-const freeze = !flag('--no-freeze');
+const freeze = !flag('--no-freeze'), fragShots = flag('--frags');
 
 // Make the frame deterministic: finish finite animations, park infinite ones at t=0, pause playing videos at 1s.
 async function settle(page) {
@@ -88,9 +89,12 @@ const inspect = () => {
     where = 's' + i;
     await page.goto(url + '#' + i); await page.reload();
     await page.waitForTimeout(waitFor[i] || meta.waits[i - 1] || waitDefault);
+    const fragCount = await page.evaluate(() => document.querySelectorAll('.slide.active [data-frag]').length);
+    if (fragCount && fragShots) { await settle(page); await page.screenshot({ path: path.join(out, `s${String(i).padStart(2, '0')}_a.png`) }); }
+    if (fragCount) await page.evaluate(() => window.ShowMe && window.ShowMe.revealAll && window.ShowMe.revealAll());
     await settle(page);
     await page.screenshot({ path: path.join(out, shotName(i)) });
-    slides.push(Object.assign({ n: i, shot: shotName(i) }, await page.evaluate(inspect)));
+    slides.push(Object.assign({ n: i, shot: shotName(i), frags: fragCount }, await page.evaluate(inspect)));
   }
 
   // interactions: explicit (--actions) and automatic (overview, 2nd tab, 2nd chapter)

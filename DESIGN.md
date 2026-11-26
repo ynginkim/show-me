@@ -100,6 +100,14 @@ A와 B는 출발 자료만 다르고 계획 이후 단계가 같다. 그래서 p
 - Lightplay와는 파일 계약만으로 잇는다(`link-lightplay/references/lightplay-contract.md`). show-me는 Lightplay 프로젝트를 읽기만 하고, showreel-mode를 중첩 호출하지 않으며, Lightplay 설치를 요구하지 않는다. Lightplay가 op55를 소비하는 방식(adapter가 경로를 확인하고 leaf가 계약 파일을 받음)과 같다. 다른 점은 show-me가 Lightplay의 스크립트를 실행할 일이 없다는 것이다. 그래서 Lightplay 쪽 adapter 경로는 `preflight.py`가 참고로만 보고한다.
 - 확인 기준: Lightplay `42cf8e156645b22d31c0cea031dc46981ec636ab`의 `finish.py` 산출물 이름과 v2 영상 프로젝트의 실제 `project.json`·`timeline.json`. 특정 커밋을 실행 조건으로 요구하지 않는다.
 
+## 의도와 계획
+
+브리프에서 사용자와 맞추는 것은 의도(청중, 전할 것, 강조할 것·뺄 것, 공개 범위)다. 구성·장 목록·설계는 mode가 정하고 승인을 기다리지 않는다. 사용자가 계획을 먼저 보자고 명시할 때만 보이고 기다린다.
+
+- 근거: 2026-11-26 평가에서 "계획 승인 단계"를 제안하자 사용자가 의도와 계획을 나누라고 정했다.
+- 두 사례의 원문도 같은 쪽이다. v2의 "어떤 걸 빼고 강조할지 먼저 알려줘"는 의도 확인이었다. 메이킹 덱 2차의 "바로 수정하지 말고 먼저 알려줘"는 명시한 경우였다.
+- 반영한 곳: `show-me-mode`의 브리프, `create-deck` 2단계, `revise-deck` 1단계, `plan-talk` 1단계와 `talk.md`의 "강조할 것 · 뺄 것" 행.
+
 ## 진입 정책과 언어
 
 <!-- skillset:policy:start -->
@@ -125,6 +133,7 @@ leaf skill과 principle의 자동 호출은 `false`다.
 | 설치 smoke | 커밋 후 clone에서 `python3 scripts/install_smoke.py` | 통과. 커밋 `15c4c4c`를 clone해 skills@1.7.4로 설치, skill 11개와 playbook·참조 72개를 `.agents`·`.claude` 두 경로에서 열었다. 설치본의 `new_deck.py`·`check_deck.py`로 새 덱을 만들고 검사(실패 0) |
 | CI(GitHub Actions) | 첫 push의 `check` 워크플로: 구조 검사, 자체 테스트 49건, 설치 smoke | 통과(run 45763925455) |
 | GitHub 경로 설치 | 빈 Git 폴더에서 `npx skills@1.7.4 add ynginkim/show-me` 후 설치본의 `new_deck.py`·`check_deck.py --no-shoot` | 통과. skill 11개 |
+| 두 번째 사례 이식(엔진 0.2.0) | 맥락 없는 하위 에이전트(Sonnet 5.5)가 메이킹 강의 덱 17장을 show-me 문서만 보고 옮겼다. 원본 촬영본과 `compare_shots.py`로 비교(2026-11-26) | 통과. 정지 화면 17장과 펼치기 전 8장, 크게 보기가 픽셀 동일하다. 전체 보기는 카드 바탕 색만 다르다(채널 차이 최대 17). 타이머 글자는 `length`가 있어 `/ 15:00`이 붙는다. 엔진은 고치지 않았다. 마찰 20개 가운데 `data-audio` 정적 검사 누락(0.2.0 버그), `--frags` 문서 누락, `[data-zoom]` 커서, 전체 보기 글자색은 고쳤다. 나머지는 "남은 후보" |
 | 라우팅(새 세션) | 미실행 | unverified |
 
 ## 잠정 규칙과 두 번째 사례 대조
@@ -139,25 +148,37 @@ leaf skill과 principle의 자동 호출은 `false`다.
 | 장면 훅 init/enter/leave | 엔진 | `Deck.widget(name, {init, enter, leave})` | 두 사례 일치 |
 | 설정에 구간·예산 | 엔진, plan-talk | `window.DECK.sections` | 두 사례 일치(형식만 다름: show-me는 JSON 블록) |
 | 장당 60~120초, 한 장에 메시지 하나 | plan-talk | 17장/20분(장당 약 70초) | 범위 안. 메시지 수는 미확인 |
-| 가로 16:9 플레이어 | 엔진 `data-shape="wide"` | `.vplayer`를 새로 만듦 | 필요는 확인. show-me 구현은 그 덱에서 쓰이지 않아 잠정 |
+| 가로 16:9 플레이어 | 엔진 `data-shape="wide"` | `.vplayer`를 새로 만들었다가 2차 수정에서 영상 장을 지움 | 필요는 확인. 잠정 |
 | 진입 시 자동 재생 `data-autoplay` | 엔진 | 쓰지 않음(P·클릭 재생) | 잠정 |
-| 시계 `data-h` | 엔진 | 썼지만 이야기 시각이 없는 장에서 끄고 싶어 함 | 잠정. 장별 끄기 후보 |
+| 시계 `data-h` | 엔진 | 썼다. 이야기 시각이 없는 장에서 끄고 싶어 함 | 두 사례 일치. 장별 끄기를 0.2.0에 올림 |
 | 변환 기본값(높이 1600, 30fps, CRF 22, 폭 1600) | prepare-media | 정보 없음 | 잠정 |
 | Lightplay 파일 이름 계약 | link-lightplay | v2 영상을 슬라이드에서 틀었음(복사) | 필요는 확인. 계약 파일 이름은 잠정 |
 | 시작 팔레트(v2 네이비·청록) | 시작 테마 | 사용자가 그 팔레트를 이어 쓴 덱을 마음에 들어 하지 않음 | 바꿈: 무채색 + 녹색·주황 강조로 시작(기본값, 아래) |
 
-## 엔진 후보(두 번째 사례 요구, 아직 넣지 않음)
+## 엔진 0.2.0에 올린 것과 남은 후보
 
-**principle-content-before-engine**에 따라 한 덱에서만 나온 요구는 후보로 둔다. 그 덱을 새 엔진으로 다시 만들 때 필요하면 덱의 scenes.js로 먼저 구현하고, 다른 덱에서도 필요하면 엔진으로 올린다.
+두 번째 사례(메이킹 강의 덱)가 끝난 뒤 사용자가 "엔진에 올릴 만한 것은 추가하자"고 정했다(2026-11-26). 그 덱이 독자 엔진으로 실제 쓴 기능 가운데 강의 덱 일반에 쓰일 것을 올렸다. **principle-content-before-engine**의 "두 번째 덱이 필요로 할 때"는 이 덱의 엔진 노트가 첫 덱(v2)에 없던 필요로 근거를 댄 것으로 갈음했다. 이식 검증은 아래 "확인하지 못한 것"의 첫 줄이다.
+
+| 올린 것 | 그 덱의 이유 | 엔진 |
+| --- | --- | --- |
+| 차례로 나타나기(`data-frag`, 같은 값 함께), 촬영용 전부 펼치기 | 원문을 먼저 보이고 결과 화면을 다음 →에 보여야 했다(17장 중 8장). `display: contents` 칸에는 투명도가 먹지 않아 묶음 값이 필요했다 | `step()`, `ShowMe.revealAll`, `showme:frag`, `shoot.mjs` 펼치기와 `--frags` |
+| 소리 버튼(`data-audio`, 한 번에 하나) | 녹음 줄을 그 자리에서 들려줬다 | 장을 넘기면 멈춤, `sm-playing` |
+| B 화면 끄기, Shift+T 타이머 0으로, 전체 경과 시간 | 현장 운영. 타이머가 페이지를 연 순간부터 잰다 | `#sm-blank`, `resetTimer` |
+| 그라데이션 하늘 + 단색 대체(`data-sky-solid`) | 탭 글자색이 `var(--sky)`라 그라데이션에서 깨진다 | `--sky-solid` |
+| 상단 바 숨기기, 장별 시계 끄기 | 꽉 채우는 장, 이야기 시각이 없는 장 | `data-notop`, `data-clock="off"` |
+| 보조 글자색을 팔레트에서 만들기 | 그 덱이 엔진의 남색 계열 고정값 때문에 색을 다시 칠했다 | `color-mix`로 `--ink-l`·`--ink-d`에서, `--letterbox`·`--overlay` 토큰 |
+
+남은 후보:
 
 | 후보 | 그 덱의 이유 |
 | --- | --- |
-| 차례로 나타나기(`data-frag`, 같은 값 함께), 촬영용 전부 펼치기 | 원문을 먼저 보이고 결과 화면을 다음 →에 보여야 했다 |
-| 소리 버튼(`data-audio`, 한 번에 하나) | 녹음 줄을 그 자리에서 들려줬다 |
-| B 화면 끄기, Shift+T 타이머 0으로, 전체 경과 시간 | 현장 운영. 타이머가 페이지를 연 순간부터 잰다 |
-| 그라데이션 하늘 + 단색 대체(`data-sky-solid`) | 탭 글자색이 `var(--sky)`라 그라데이션에서 깨진다 |
-| 상단 바 숨기기, 장별 시계 끄기 | 꽉 채우는 장, 이야기 시각이 없는 장 |
-| 발표자 노트 | 장마다 말할 거리 |
+| 발표자 노트 | 장마다 말할 거리. 이식 시험에서도 다시 나왔다 |
+| 실습 카운트다운(`data-countdown`) | 두 덱(원본, 이식본)이 같은 위젯을 scenes.js로 썼다. 실습이 있는 강의는 흔하다 |
+| 동작 검사(`--actions`의 `reveal`·`expect` 단계) | 이식 시험이 → 나타나기, `data-goto`, 소리, 카운트다운을 확인하려고 Playwright 스크립트 37개를 따로 썼다 |
+| `prep_media.py copy`와 `audio` 종류, `new_deck.py --fonts-from` | 이미 브라우저용인 미디어를 손실 없이 옮기고 기록할 길, 다른 덱의 글꼴을 가져올 길이 없었다 |
+| 20px 미만 글자 수를 보고서 표에 | 규칙은 문서에 있는데 자동 보고가 없다. 이식본 17장 중 15장에 있었다(원본도 같다) |
+| 기존 HTML 덱을 옮기는 안내(엔진 API 대응표) | `.playing`→`.sm-playing`처럼 놓치면 조용히 깨지는 대응이 있었다 |
+| 덱이 더 긴 강의의 일부일 때의 시간 모델 | 영상·다른 슬라이드가 덱 밖에 있을 때 `length`와 타이머 표시가 묶여 있다 |
 | 왼쪽 글·오른쪽 화면 레이아웃, 사람·AI 말풍선 | 두 사례 모두 썼다. show-me는 시작 테마(덱 소유)에 `.rail`/`.stage`를 둔다. 엔진으로 올릴지는 그 덱 재빌드 때 정한다 |
 
 ## 이름
@@ -179,7 +200,6 @@ leaf skill과 principle의 자동 호출은 `false`다.
 
 | 항목 | 상태 | 닫을 조건 |
 | --- | --- | --- |
-| 두 번째 사례(메이킹 강의 덱)를 새 엔진으로 다시 만들기 | unverified | 그 덱이 끝나면 내용을 show-me 형식으로 옮겨 원본과 장마다 비교하고, 위 "엔진 후보"를 scenes.js로 둘지 엔진으로 올릴지 정한다. 잠정 표시를 갱신한다 |
 | 새 세션 라우팅(mode → create-deck 읽기, 원문 단계) | unverified | 사용자 승인 뒤 Claude Code 새 세션 1회, `.agents/skills/verify-show-me`의 Drive 절차로 실행하고 이 문서의 검증 기록에 적는다 |
 | 실제 강의 한 편을 show-me로 처음부터 만들기 | unverified | 다음 강의에서 `create-deck`으로 만들고 제작노트의 막힌 단계를 absorb-feedback으로 반영한다 |
 | 가로 플레이어·자동 재생의 현장 동작(소리 있는 자동 재생 정책) | unverified | 발표 컴퓨터의 Chrome에서 키로 넘겨 들어갔을 때 소리와 함께 재생되는지 사람이 확인한다 |
